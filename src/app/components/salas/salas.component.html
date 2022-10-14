@@ -1,0 +1,73 @@
+<div class="container div_tabla">
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Sala</th>
+                <th scope="col">Capacidad</th>
+                <th scope="col" colspan="2" style="text-align: center;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of salas">
+                <td>{{i.Nombre}}</td>
+                <td><strong>{{i.Capacidad}}</strong> <small>  Personas</small></td>
+                <td><button type="button" class="btn btn-outline-danger" (click)="eliminar(i)">Eliminar</button></td>
+                <td><button type="button" class="btn btn-outline-primary" (click)="editar(i)" data-bs-toggle="modal" data-bs-target="#editarSala" *ngIf="i.Estado=='libre'; else ocup">Editar</button></td>
+                <ng-template #ocup><td><button type="button" class="btn btn-outline-primary" (click)="editar(i)">Editar</button></td></ng-template>  <!-- Cuando este ocupado, no abre el modal -->
+            </tr>
+        </tbody>
+    </table>
+    <div class="container div_btn">
+        <button type="button" class="btn btn-success my-4" data-bs-toggle="modal" data-bs-target="#modalCrear" (click)="limpiar_form2()">Nueva Sala</button> 
+    </div>
+</div>
+
+<!-- Modal para Editar -->
+<div class="modal fade" id="editarSala" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Sala</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="form_1" (ngSubmit)="submit_1()">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput" formControlName="nuevo_nombre">
+                        <label for="floatingInput">Nombre</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control" id="floatingCap" formControlName="nueva_capacidad">
+                        <label for="floatingCap">Capacidad</label>
+                    </div>
+                    <button type="submit" class="btn btn-success my-3" [disabled]=!form_1.valid>Guardar</button>
+                </form>          
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para registrar nueva Sala  -->
+<div class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nueva Sala: {{form_2.value.nombre}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="form_2" (ngSubmit)="submit_2()">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput" formControlName="nombre">
+                        <label for="floatingInput">Nombre</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="number" class="form-control" id="floatingCap" formControlName="capacidad">
+                        <label for="floatingCap">Capacidad</label>
+                    </div>
+                    <button type="submit" class="btn btn-success my-3" [disabled]=!form_2.valid>Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

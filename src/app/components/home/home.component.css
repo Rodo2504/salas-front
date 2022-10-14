@@ -1,0 +1,12 @@
+.sala_ocup{
+    background: #C6FDE2;
+}
+.sala_libr{
+    background: #FDBEB8;
+}
+
+.formulario{
+    padding: 25px;
+    border-radius: 5px;
+    border: 2px solid black;
+}

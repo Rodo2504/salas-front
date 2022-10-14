@@ -1,0 +1,9 @@
+.clock {
+    min-width: 90%;
+    padding: 10px;
+    font-size: 5rem;
+    background: #EEEEEE;
+    border: 2px solid #9B9696;
+    border-radius:  5px;
+    display: flex;
+}

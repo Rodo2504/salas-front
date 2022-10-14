@@ -1,0 +1,13 @@
+.div_tabla{
+    margin-top: 15px;
+    width: 70%;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+.div_btn{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}

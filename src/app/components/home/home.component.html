@@ -1,0 +1,84 @@
+<div class="container" style="margin-top: 20px; display: flex; flex-flow: row; justify-content: center;">
+    <app-reloj></app-reloj>
+</div>
+  
+<div class="container-fluid" style="margin-top: 2%; text-align: center;">
+    <h4>Sistema para reservaciones de salas de juntas</h4>
+</div>
+  
+<div class="container" style="margin-top: 5%;">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" *ngFor="let s of salas">
+            <div class="card h-100 text-center border-danger sala_libr" *ngIf="s.Estado == 'ocupada'; else libre">
+                <div class="card-body">
+                    <h5 class="card-title">{{s.Nombre}}</h5>
+                    <p class="card-text text-muted"><strong>Capacidad:</strong> {{s.Capacidad}}</p>
+                    <button type="button" class="btn btn-danger mx-3" (click)="liberar(s)">Liberar</button>          
+                    <button type="button" class="btn btn-success mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="reservar(s.Id)">Reservar</button>
+                </div>
+            </div>
+            <ng-template #libre>
+                <div class="card h-100 text-center border-success sala_ocup">
+                    <div class="card-body">
+                        <h5 class="card-title">{{s.Nombre}}</h5>
+                        <p class="card-text text-muted"><strong>Capacidad:</strong> {{s.Capacidad}}</p>
+                        <button type="button" class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="reservar(s.Id)">Reservar</button>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
+  
+  
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reservar Sala</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">           
+                        <label for="exampleFormControlInput1" class="form-label">Nombre del Responsable</label>
+                        <input type="text" class="form-control" formControlName="nombre" placeholder="Ingrese el nombre">  
+                        <label for="exampleFormControlInput1" class="form-label">Hora Inicial</label>
+                        <input type="time" class="form-control" formControlName="hr_in" (change)="cambio()">
+                        <div class="alert alert-danger" role="alert" *ngIf="err_3">
+                            La hora inicial debe superar a la actual
+                        </div>
+                        <label for="exampleFormControlInput1" class="form-label">Hora Final</label>
+                        <input type="time" class="form-control" formControlName="hr_fin" (change)="cambio()" id="inp_hr">
+                        <div class="alert alert-danger" role="alert" *ngIf="err_1">
+                            La hora final debe superar a la inicial
+                        </div>
+                        <div class="alert alert-danger" role="alert" *ngIf="err_2">
+                            No puede reservar la sala por más de dos horas
+                        </div>         
+                    </div>
+                    <button type="submit" style="text-align: center;" class="btn btn-outline-success" [disabled]="!form.valid || (err_1 || err_2 || err_3)">Confirmar</button> 
+                </form>
+                <hr>
+                <h5 style="text-align: center;">Reservaciones</h5>
+                <table class="table table-boredered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Horario</th>
+                            <th scope="col">Encargado</th>
+                            <th scope="col">  </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let r of reservas_sala">
+                            <td>{{r.Hra_ini}} - {{r.Hra_fin}}</td>
+                            <td>{{r.Encargado}}</td>
+                            <td><button type="button" class="btn btn-danger mx-3" (click)="cancelar(r)">Cancelar</button> </td>  
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
