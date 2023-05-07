@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class SalasService {
   constructor(private http: HttpClient) { }
 
-  url = 'https://api-salas.herokuapp.com';
+  url = 'https://salas-api.up.railway.app';
 
   getSalas(){
     return this.http.get(`${this.url}/salas`);
